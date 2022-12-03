@@ -117,7 +117,7 @@ public class User extends UserType implements Runnable,ActionListener,ListSelect
         add(userLoginpanel);
         setVisible(true);
     }
-    public void userSummary(int x, int y){
+    public void Summary(int x, int y){
         userLoginpanel = new JPanel();
         setTitle("Summary");
         setSize(500,500);
@@ -349,7 +349,7 @@ public class User extends UserType implements Runnable,ActionListener,ListSelect
                 failure.setText("Password Changed");
             } catch (Exception j) {
                 // TODO: handle exception
-                System.out.println("Never Gonna Give you up ");
+                System.out.println("");
                 System.out.println(j);
             }
         }
@@ -372,7 +372,7 @@ public class User extends UserType implements Runnable,ActionListener,ListSelect
                 // TODO: handle exception
             }
             
-            userSummary(x,y);
+            Summary(x,y);
         }
         else if(e.getSource()==userOrder){
             remove(userLoginpanel);

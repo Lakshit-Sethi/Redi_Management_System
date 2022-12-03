@@ -392,19 +392,19 @@ public class LoginGui extends JFrame implements ActionListener{
         else if(e.getSource()==userLoginButton){
             String name =  UserName.getText();
             String pass = Pass.getText();
-            System.out.print("We're no strangers to love ");
+            System.out.print("");
             int i=3;
             try{
                 i = UserLogin(name,pass);
             }
             catch(FileNotFoundException j){
-                System.out.println("You know the rules and so do I (do I) ");
+                System.out.println("");
             }
             catch(InterruptedException j2){
-                System.out.println("A full commitment's what I'm thinking of ");
+                System.out.println("");
             }
             finally{
-                System.out.println("You wouldn't get this from any other guy ");
+                System.out.println("");
             }
             if(i==0) failure.setText("Wrong Login info");
             else {
@@ -424,16 +424,16 @@ public class LoginGui extends JFrame implements ActionListener{
                 i = UserRegister(name,bitsEid,mNum,bitsId,pass);
             }
             catch(FileNotFoundException j){
-                System.out.println("fuck");
+                System.out.println("");
             }
             catch(InterruptedException j2){
-                System.out.println("Save me");
+                System.out.println("");
             }
             catch(IOException j3){
-                System.out.println("Unholy");
+                System.out.println("");
             }
             finally{
-                System.out.println("shit");
+                System.out.println("");
             }
             if(i==0) failure.setText("Wrong Login info");
             else {
@@ -457,19 +457,19 @@ public class LoginGui extends JFrame implements ActionListener{
         else if(e.getSource()==ownerLoginButton){
             String name =  UserName.getText();
             String pass = Pass.getText();
-            System.out.print("We're no strangers to love ");
+            System.out.print("");
             int i=3;
             try{
                 i = OwnerLogin(name,pass);
             }
             catch(FileNotFoundException j){
-                System.out.println("You know the rules and so do I (do I) ");
+                System.out.println("");
             }
             catch(InterruptedException j2){
-                System.out.println("A full commitment's what I'm thinking of ");
+                System.out.println("");
             }
             finally{
-                System.out.println("You wouldn't get this from any other guy ");
+                System.out.println("");
             }
             if(i==0) failure.setText("Wrong Login info");
         }
@@ -494,16 +494,16 @@ public class LoginGui extends JFrame implements ActionListener{
                 i = OwnerRegister(name,mNum,pass);
             }
             catch(FileNotFoundException j){
-                System.out.println("We're no strangers to love ");
+                System.out.println("");
             }
             catch(InterruptedException j2){
-                System.out.println("You know the rules and so do I (do I) ");
+                System.out.println("");
             }
             catch(IOException j3){
-                System.out.println("A full commitment's what I'm thinking of ");
+                System.out.println("");
             }
             finally{
-                System.out.println("You wouldn't get this from any other guy ");
+                System.out.println("");
             }
             if(i==0) failure.setText("Wrong Login info");
             else {

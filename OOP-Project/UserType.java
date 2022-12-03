@@ -7,6 +7,6 @@ abstract class UserType extends JFrame{
     String password;
 
     abstract void changePassword(String password)throws FileNotFoundException;
-    abstract void userSummary(int x,int y);
+    abstract void Summary(int x,int y);
 
 }

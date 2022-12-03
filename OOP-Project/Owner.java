@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import java.awt.Window;
+import java.awt.Font;
 import java.awt.event.*;
 
 public class Owner extends UserType implements Runnable, ActionListener {
@@ -12,28 +12,30 @@ public class Owner extends UserType implements Runnable, ActionListener {
     String password;
     ArrayList<ordering> orders = new ArrayList<ordering>();
     Thread t;
-    private JPanel userLoginpanel;
-    private JButton userOrder;
-    private JButton userSummary;
-    private JButton userLogout;
-    private JButton userChangePass;
-    private JLabel userLabel;
+    private JPanel ownerLoginpanel;
+    private JButton ownerOrder;
+    private JButton ownerSummary;
+    private JButton ownerLogout;
+    private JButton ownerChangePass;
+    private JLabel ownerLabel;
     private JLabel passLabel;
     private JPasswordField newPass;
     private JPasswordField Pass;
-    private JButton userChangePassButton;
-    private JButton userbacktowindowButton;
+    private JButton ownerChangePassButton;
+    private JButton ownerbacktowindowButton;
     private JLabel failure;
-    private JLabel userTotalExpense;
-    private JLabel userMonthlyExpense;
-    private JButton userAdd;
-    private JButton userDelete;
-    private JButton userUpdate;
+    private JLabel ownerTotalExpense;
+    private JLabel ownerMonthlyExpense;
+    private JButton ownerAdd;
+    private JButton ownerDelete;
+    private JButton ownerUpdate;
     private Order o;
     private JLabel orderLabel;
     private JLabel showingorders;
     private JButton deliverButton;
     private JButton orderDoneButton;
+    private JTextArea orderSummary;
+    private JLabel Mostordereditem;
 
     Owner(String name, String num, String password) {
         t = new Thread(this, name + num);
@@ -54,60 +56,87 @@ public class Owner extends UserType implements Runnable, ActionListener {
     }
 
     public void OwnerWindow() {
-        userLoginpanel = new JPanel();
+        ownerLoginpanel = new JPanel();
         setTitle(name);
         setSize(500, 500);
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // userLoginpanel.setLayout(new LayoutManager());
-        // userLoginpanel.setLayout(new GridLayout(3,1));
-        userOrder = new JButton("Manage Redi");
-        userOrder.setSize(100, 25);
-        userOrder.addActionListener(this);
-        userSummary = new JButton("Summary");
-        userSummary.setSize(100, 25);
-        userSummary.addActionListener(this);
-        userLogout = new JButton("Logout");
-        userLogout.setSize(100, 25);
-        userLogout.addActionListener(this);
-        userChangePass = new JButton("Change Password");
-        userChangePass.setSize(100, 25);
-        userChangePass.addActionListener(this);
+        // ownerLoginpanel.setLayout(new LayoutManager());
+        // ownerLoginpanel.setLayout(new GridLayout(3,1));
+        ownerOrder = new JButton("Manage Redi");
+        ownerOrder.setSize(100, 25);
+        ownerOrder.addActionListener(this);
+        ownerSummary = new JButton("Summary");
+        ownerSummary.setSize(100, 25);
+        ownerSummary.addActionListener(this);
+        ownerLogout = new JButton("Logout");
+        ownerLogout.setSize(100, 25);
+        ownerLogout.addActionListener(this);
+        ownerChangePass = new JButton("Change Password");
+        ownerChangePass.setSize(100, 25);
+        ownerChangePass.addActionListener(this);
 
-        userLoginpanel.add(userOrder);
-        userLoginpanel.add(userSummary);
-        userLoginpanel.add(userLogout);
-        userLoginpanel.add(userChangePass);
-        add(userLoginpanel);
+        ownerLoginpanel.add(ownerOrder);
+        ownerLoginpanel.add(ownerSummary);
+        ownerLoginpanel.add(ownerLogout);
+        ownerLoginpanel.add(ownerChangePass);
+        add(ownerLoginpanel);
         setVisible(true);
     }
 
-    public void userSummary(int x, int y) {
-        userLoginpanel = new JPanel();
+    public void Summary(int x, int y) {
+        ownerLoginpanel = new JPanel();
         setTitle("Summary");
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        userLoginpanel.setLayout(null);
-        userLabel = new JLabel("Total expense");
-        userLabel.setBounds(10, 20, 150, 25);
+        ownerLoginpanel.setLayout(null);
+        ownerLabel = new JLabel("Total expense");
+        ownerLabel.setBounds(10, 20, 150, 25);
         passLabel = new JLabel("Monthly expense");
         passLabel.setBounds(10, 50, 150, 25);
-        userTotalExpense = new JLabel(y + "");
-        userTotalExpense.setBounds(180, 20, 165, 25);
-        userMonthlyExpense = new JLabel(x + "");
-        userMonthlyExpense.setBounds(180, 50, 165, 25);
-        userbacktowindowButton = new JButton("Back");
-        userbacktowindowButton.setBounds(10, 110, 100, 25);
-        userbacktowindowButton.addActionListener(this);
+        ownerTotalExpense = new JLabel(y + "");
+        ownerTotalExpense.setBounds(180, 20, 165, 25);
+        ownerMonthlyExpense = new JLabel(x + "");
+        ownerMonthlyExpense.setBounds(180, 50, 165, 25);
+        ownerbacktowindowButton = new JButton("Back");
+        ownerbacktowindowButton.setBounds(380,10,100,25);
+        ownerbacktowindowButton.addActionListener(this);
         failure = new JLabel("");
         failure.setBounds(130, 80, 200, 25);
-        // userLoginButton.setBounds(10,110,80,25);
-        userLoginpanel.add(userLabel);
-        userLoginpanel.add(userTotalExpense);
-        userLoginpanel.add(passLabel);
-        userLoginpanel.add(userMonthlyExpense);
-        userLoginpanel.add(userbacktowindowButton);
-        userLoginpanel.add(failure);
-        add(userLoginpanel);
+        // ownerLoginButton.setBounds(10,110,80,25);
+        String input[] = new String[2];
+        try {
+            input = amountperitem();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // Show the most ordered item presen in s[1];
+        Mostordereditem = new JLabel();
+        Mostordereditem.setBounds(10, 80, 400, 25);
+        Mostordereditem.setText("Most ordered item is " + input[1]);
+        System.out.println(input[1]);
+        ownerLoginpanel.add(Mostordereditem);
+        orderSummary = new JTextArea();
+        orderSummary.setBounds(10, 110, 500, 300);
+        orderSummary.setText(input[0]);
+        //increase the size of font
+       
+        Font font = orderSummary.getFont();
+        float size = font.getSize() + 2.0f;
+        orderSummary.setFont( font.deriveFont(size) );
+        //add scroll option to the text area
+        JScrollPane scroll = new JScrollPane (orderSummary);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setBounds(10, 110, 400, 300);
+        ownerLoginpanel.add(scroll);
+        orderSummary.setEditable(false);
+        ownerLoginpanel.add(ownerLabel);
+        ownerLoginpanel.add(ownerTotalExpense);
+        ownerLoginpanel.add(passLabel);
+        ownerLoginpanel.add(ownerMonthlyExpense);
+        ownerLoginpanel.add(ownerbacktowindowButton);
+        ownerLoginpanel.add(failure);
+        add(ownerLoginpanel);
         setVisible(true);
     }
 
@@ -126,8 +155,8 @@ public class Owner extends UserType implements Runnable, ActionListener {
     }
 
     public void refreshorder() throws FileNotFoundException {
-        userLoginpanel = new JPanel();
-        userLoginpanel.setLayout(null);
+        ownerLoginpanel = new JPanel();
+        ownerLoginpanel.setLayout(null);
         setTitle("Your Orders");
         setSize(500, 200);
         orderLabel = new JLabel("Orders");
@@ -137,8 +166,8 @@ public class Owner extends UserType implements Runnable, ActionListener {
         deliverButton = new JButton("Deliver");
         deliverButton.setBounds(10, 80, 150, 25);
         deliverButton.addActionListener(this);
-        userLoginpanel.add(showingorders);
-        userLoginpanel.add(orderLabel);
+        ownerLoginpanel.add(showingorders);
+        ownerLoginpanel.add(orderLabel);
         
         orderDoneButton = new JButton("Back");
         orderDoneButton.setBounds(10, 80, 150, 25);
@@ -161,12 +190,12 @@ public class Owner extends UserType implements Runnable, ActionListener {
         Reader.close();
         if(flip==0) {
             showingorders.setText("No More orders");
-            userLoginpanel.add(orderDoneButton);
+            ownerLoginpanel.add(orderDoneButton);
         }
         else {
-            userLoginpanel.add(deliverButton);
+            ownerLoginpanel.add(deliverButton);
         }
-        add(userLoginpanel);
+        add(ownerLoginpanel);
         setVisible(true);
     }
 
@@ -174,7 +203,7 @@ public class Owner extends UserType implements Runnable, ActionListener {
         File Obj = new File(this.name + this.num + "menu.txt");
         Scanner Reader = new Scanner(Obj);
         while (Reader.hasNextLine()) {
-            String s[] = Reader.nextLine().split(" ");
+            // String s[] = Reader.nextLine().split(" ");
             // Print s[0],s[1],s[2](If it isnt -1 exists)
         }
         Reader.close();
@@ -213,89 +242,133 @@ public class Owner extends UserType implements Runnable, ActionListener {
     }
 
     public void ManageRediWindow() {
-        userLoginpanel = new JPanel();
+        ownerLoginpanel = new JPanel();
         setTitle("Manage Redi");
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // userLoginpanel.setLayout(new LayoutManager());
-        // userLoginpanel.setLayout(new GridLayout(3,1));
-        userAdd = new JButton("Add To Menu");
-        userAdd.setSize(100, 25);
-        userAdd.addActionListener(this);
-        userDelete = new JButton("Remove From Menu");
-        userDelete.setSize(100, 25);
-        userDelete.addActionListener(this);
-        userUpdate = new JButton("Take Orders");
-        userUpdate.setSize(100, 25);
-        userUpdate.addActionListener(this);
-        userbacktowindowButton = new JButton("Back");
-        userbacktowindowButton.setSize(100, 25);
-        userbacktowindowButton.addActionListener(this);
-        userLoginpanel.add(userAdd);
-        userLoginpanel.add(userDelete);
-        userLoginpanel.add(userUpdate);
-        userLoginpanel.add(userbacktowindowButton);
-        add(userLoginpanel);
+        // ownerLoginpanel.setLayout(new LayoutManager());
+        // ownerLoginpanel.setLayout(new GridLayout(3,1));
+        ownerAdd = new JButton("Add To Menu");
+        ownerAdd.setSize(100, 25);
+        ownerAdd.addActionListener(this);
+        ownerDelete = new JButton("Remove From Menu");
+        ownerDelete.setSize(100, 25);
+        ownerDelete.addActionListener(this);
+        ownerUpdate = new JButton("Take Orders");
+        ownerUpdate.setSize(100, 25);
+        ownerUpdate.addActionListener(this);
+        ownerbacktowindowButton = new JButton("Back");
+        ownerbacktowindowButton.setSize(100, 25);
+        ownerbacktowindowButton.addActionListener(this);
+        ownerLoginpanel.add(ownerAdd);
+        ownerLoginpanel.add(ownerDelete);
+        ownerLoginpanel.add(ownerUpdate);
+        ownerLoginpanel.add(ownerbacktowindowButton);
+        add(ownerLoginpanel);
         setVisible(true);
     }
 
-    public void UserChangePass() {
-        userLoginpanel = new JPanel();
+    public void ownerChangePass() {
+        ownerLoginpanel = new JPanel();
         setTitle("Change Password");
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        userLoginpanel.setLayout(null);
-        userLabel = new JLabel("Enter Old Password");
-        userLabel.setBounds(10, 20, 150, 25);
+        ownerLoginpanel.setLayout(null);
+        ownerLabel = new JLabel("Enter Old Password");
+        ownerLabel.setBounds(10, 20, 150, 25);
         passLabel = new JLabel("New Password");
         passLabel.setBounds(10, 50, 150, 25);
         newPass = new JPasswordField();
         newPass.setBounds(180, 50, 165, 25);
         Pass = new JPasswordField();
         Pass.setBounds(180, 20, 165, 25);
-        userChangePassButton = new JButton("Change Password");
-        userChangePassButton.setBounds(10, 80, 150, 25);
-        userChangePassButton.addActionListener(this);
-        userbacktowindowButton = new JButton("Back");
-        userbacktowindowButton.setBounds(10, 110, 100, 25);
-        userbacktowindowButton.addActionListener(this);
+        ownerChangePassButton = new JButton("Change Password");
+        ownerChangePassButton.setBounds(10, 80, 200, 25);
+        ownerChangePassButton.addActionListener(this);
+        ownerbacktowindowButton = new JButton("Back");
+        ownerbacktowindowButton.setBounds(10, 110, 100, 25);
+        ownerbacktowindowButton.addActionListener(this);
         failure = new JLabel("");
         failure.setBounds(130, 80, 200, 25);
-        // userLoginButton.setBounds(10,110,80,25);
-        userLoginpanel.add(userLabel);
-        userLoginpanel.add(newPass);
-        userLoginpanel.add(passLabel);
-        userLoginpanel.add(Pass);
-        userLoginpanel.add(userbacktowindowButton);
-        userLoginpanel.add(userChangePassButton);
-        userLoginpanel.add(failure);
-        add(userLoginpanel);
+        // ownerLoginButton.setBounds(10,110,80,25);
+        ownerLoginpanel.add(ownerLabel);
+        ownerLoginpanel.add(newPass);
+        ownerLoginpanel.add(passLabel);
+        ownerLoginpanel.add(Pass);
+        ownerLoginpanel.add(ownerbacktowindowButton);
+        ownerLoginpanel.add(ownerChangePassButton);
+        ownerLoginpanel.add(failure);
+        add(ownerLoginpanel);
         setVisible(true);
     }
-
+    public String[] amountperitem()throws FileNotFoundException{
+        ArrayList<String[]> arr=new ArrayList<String[]>();
+        String output="";
+        File Obj = new File(this.name+this.num+".txt");
+        Scanner Reader = new Scanner(Obj);
+        int n=0;
+        while(Reader.hasNextLine()){
+            String str[]=Reader.nextLine().split(" ");
+            n++;
+            arr.add(str);
+        }
+        boolean a[]=new boolean[n];
+        for(int i=0;i<n;i++){
+            a[i]=false;
+        }
+        Reader.close();
+        String answer="";
+        int x=0;
+        for(int i=0;i<n;i++){
+            if(a[i]==false){
+                a[i]=true;
+                String str[]=arr.get(i);
+                int m=0;
+                int quan=0;
+                for(int j=0;j<n;j++){
+                    String str2[]=arr.get(j);
+                    if(str[1].equals(arr.get(j)[1])){
+                        m+=Integer.parseInt(str2[3]);
+                        quan+=Integer.parseInt(str2[4]);
+                        a[j]=true;
+                    }
+                }
+                output+=(str[1]+" "+m+" "+quan+"\n");
+                if(quan>x){
+                    x=quan;
+                    answer=str[1];
+                }
+                //Output the str[0] str[1] m and quan;
+            }
+        }
+        String ans[]=new String[2];
+        ans[0]=output;
+        ans[1]=answer;
+        return ans;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        if (e.getSource() == userLogout) {
+        if (e.getSource() == ownerLogout) {
             this.dispose();
-        } else if (e.getSource() == userChangePass) {
-            remove(userLoginpanel);
-            UserChangePass();
-        } else if (e.getSource() == userChangePassButton) {
+        } else if (e.getSource() == ownerChangePass) {
+            remove(ownerLoginpanel);
+            ownerChangePass();
+        } else if (e.getSource() == ownerChangePassButton) {
             String s = newPass.getText();
             try {
                 changePassword(s);
                 failure.setText("Password Changed");
             } catch (Exception j) {
                 // TODO: handle exception
-                System.out.println("Never Gonna Give you up ");
+                System.out.println("Error");
                 System.out.println(j);
             }
-        } else if (e.getSource() == userbacktowindowButton) {
-            remove(userLoginpanel);
+        } else if (e.getSource() == ownerbacktowindowButton) {
+            remove(ownerLoginpanel);
             OwnerWindow();
-        } else if (e.getSource() == userSummary) {
-            remove(userLoginpanel);
+        } else if (e.getSource() == ownerSummary) {
+            remove(ownerLoginpanel);
             int x = 0, y = 0;
             try {
                 y = totalexpense();
@@ -304,11 +377,11 @@ public class Owner extends UserType implements Runnable, ActionListener {
                 // TODO: handle exception
             }
 
-            userSummary(x, y);
-        } else if (e.getSource() == userOrder) {
-            remove(userLoginpanel);
+            Summary(x, y);
+        } else if (e.getSource() == ownerOrder) {
+            remove(ownerLoginpanel);
             ManageRediWindow();
-            // remove(userLoginpanel);
+            // remove(ownerLoginpanel);
             // Order o = new Order(this.name,this.num,this.password,"1");
             // o.t.start();
             // try {
@@ -317,8 +390,8 @@ public class Owner extends UserType implements Runnable, ActionListener {
             // // TODO Auto-generated catch block
             // e1.printStackTrace();
             // }
-        } else if (e.getSource() == userAdd) {
-            // userLoginpanel.setVisible(false);
+        } else if (e.getSource() == ownerAdd) {
+            // ownerLoginpanel.setVisible(false);
             o = new Order(this.name, this.num, this.password, "1");
             o.t.start();
             // try {
@@ -327,8 +400,8 @@ public class Owner extends UserType implements Runnable, ActionListener {
             // // TODO Auto-generated catch block
             // e1.printStackTrace();
             // }
-        } else if (e.getSource() == userDelete) {
-            // remove(userLoginpanel);
+        } else if (e.getSource() == ownerDelete) {
+            // remove(ownerLoginpanel);
             o = new Order(this.name, this.num, this.password, "2");
             o.t.start();
             try {
@@ -339,7 +412,7 @@ public class Owner extends UserType implements Runnable, ActionListener {
             }
         } else if (e.getSource() == deliverButton) {
             try {
-                remove(userLoginpanel);
+                remove(ownerLoginpanel);
                 int flip=0;
                 File Obj = new File(this.name + this.num + ".txt");
                 Scanner Reader = new Scanner(Obj);
@@ -381,8 +454,8 @@ public class Owner extends UserType implements Runnable, ActionListener {
             } catch (FileNotFoundException f) {
                 System.out.println("File not found");
             }
-        } else if (e.getSource() == userUpdate) {
-            remove(userLoginpanel);
+        } else if (e.getSource() == ownerUpdate) {
+            remove(ownerLoginpanel);
 
             try {
                 refreshorder();
@@ -392,11 +465,11 @@ public class Owner extends UserType implements Runnable, ActionListener {
             }
         }
         else if(e.getSource()==orderDoneButton){
-            remove(userLoginpanel);
+            remove(ownerLoginpanel);
             ManageRediWindow();
         }
-        // else if(e.getSource()==userAddButton){
-        // String s = userAddText.getText();
+        // else if(e.getSource()==ownerAddButton){
+        // String s = ownerAddText.getText();
         // try {
         // addMenu(s);
         // failure.setText("Added to Menu");
