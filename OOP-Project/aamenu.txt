@@ -1,4 +1,0 @@
-samosa 15 28
-kachori 30 -1
-biryani 30 67
-
